@@ -27,6 +27,8 @@
         android:layout_height="60dp"
         android:layout_alignBottom="@+id/casa"
         android:layout_alignRight="@+id/casa"
+        android:onClick="setLocalization"
+        android:id="@+id/botonCasa"
         android:src="@drawable/map"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"/>
@@ -46,6 +48,8 @@
         android:layout_height="60dp"
         android:layout_alignBottom="@+id/trabajo"
         android:layout_alignRight="@+id/trabajo"
+        android:onClick="setLocalization"
+        android:id="@+id/botonTrabajo"
         android:src="@drawable/map"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"/>
@@ -64,6 +68,8 @@
         android:layout_height="60dp"
         android:layout_alignBottom="@+id/facultad"
         android:layout_alignRight="@+id/facultad"
+        android:onClick="setLocalization"
+        android:id="@+id/botonFacultad"
         android:src="@drawable/map"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"/>
