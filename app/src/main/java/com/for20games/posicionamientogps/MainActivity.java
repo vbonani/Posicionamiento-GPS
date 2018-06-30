@@ -1,6 +1,8 @@
 package com.for20games.posicionamientogps;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -19,6 +21,10 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity {
 
     private FusedLocationProviderClient client;
@@ -33,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
     Double longitudFacultad;
 
     //Posicion de casa
-    Double latitudCasa;
-    Double longitudCasa;
+    Double latitudCasa=58.55;
+    Double longitudCasa=68.66;
 
     //Posicion del trabajo
     Double latitudTrabajo;
@@ -45,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView testo = findViewById(R.id.TESTO);
+
         client = LocationServices.getFusedLocationProviderClient(this);
         locationCallback = new LocationCallback() {
             @Override
@@ -57,12 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 longitudActual = lastLocation.getLongitude();
                 latitudActual = lastLocation.getLatitude();
 
-                testo.setText(String.valueOf(longitudActual));
-                testo.append(" ");
-                testo.append(String.valueOf(latitudActual));
+
 
             }
         };
+       
     }
 
     @Override
@@ -106,6 +111,70 @@ public class MainActivity extends AppCompatActivity {
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         client.requestLocationUpdates(request,  locationCallback, null);
 
+    }
+
+    private void guardarPosicionCasa() {
+        SharedPreferences preferencias = getSharedPreferences("PosicionamientoCasa", Context.MODE_PRIVATE);
+
+        try {
+            String posicionString = preferencias.getString("posicion", "[]");
+            JSONArray posicion = new JSONArray(posicionString);
+
+            JSONObject object = new JSONObject();
+
+            object.remove("latitud");
+            object.remove("longitud");
+            object.put("latitud", latitudCasa);
+            object.put("longitud", longitudCasa);
+
+            posicion.put(object);
+
+            preferencias.edit().putString("posicion", posicion.toString()).apply();
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+    }
+    private void guardarPosicionTrabajo() {
+        SharedPreferences preferencias = getSharedPreferences("PosicionamientoTrabajo", Context.MODE_PRIVATE);
+
+        try {
+            String posicionString = preferencias.getString("posicion", "[]");
+            JSONArray posicion = new JSONArray(posicionString);
+
+            JSONObject object = new JSONObject();
+
+            object.remove("latitud");
+            object.remove("longitud");
+            object.put("latitud", latitudTrabajo);
+            object.put("longitud", longitudTrabajo);
+
+            posicion.put(object);
+
+            preferencias.edit().putString("posicion", posicion.toString()).apply();
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
+    }
+    private void guardarPosicionFacultad() {
+        SharedPreferences preferencias = getSharedPreferences("PosicionamientoFacultad", Context.MODE_PRIVATE);
+
+        try {
+            String posicionString = preferencias.getString("posicion", "[]");
+            JSONArray posicion = new JSONArray(posicionString);
+
+            JSONObject object = new JSONObject();
+
+            object.remove("latitud");
+            object.remove("longitud");
+            object.put("latitud", latitudFacultad);
+            object.put("longitud", longitudFacultad);
+
+            posicion.put(object);
+
+            preferencias.edit().putString("posicion", posicion.toString()).apply();
+        } catch (JSONException error) {
+            error.printStackTrace();
+        }
     }
 
 }
