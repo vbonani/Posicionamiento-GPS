@@ -13,6 +13,7 @@ import android.Manifest.permission;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,18 +40,27 @@ public class MainActivity extends AppCompatActivity {
     Double longitudFacultad;
 
     //Posicion de casa
-    Double latitudCasa=58.55;
-    Double longitudCasa=68.66;
+    Double latitudCasa;
+    Double longitudCasa;
 
     //Posicion del trabajo
     Double latitudTrabajo;
     Double longitudTrabajo;
+
+    boolean eligioPosicionTrabajo=false;
+    boolean eligioPosicionCasa=false;
+    boolean eligioPosicionFacultad=false;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final TextView posActual = findViewById(R.id.posicionActual);
+        final TextView casa = findViewById(R.id.casa);
+        final TextView facultad = findViewById(R.id.facultad);
+        final TextView trabajo = findViewById(R.id.trabajo);
 
         client = LocationServices.getFusedLocationProviderClient(this);
         locationCallback = new LocationCallback() {
@@ -63,6 +73,51 @@ public class MainActivity extends AppCompatActivity {
                 longitudActual = lastLocation.getLongitude();
                 latitudActual = lastLocation.getLatitude();
 
+
+                posActual.setText("Ubicacion actual:  \n");
+                posActual.append(String.valueOf(longitudActual));
+                posActual.append("\n");
+                posActual.append(String.valueOf(latitudActual));
+
+                Location locAct = new Location("");
+                locAct.setLatitude(latitudActual);
+                locAct.setLongitude(longitudActual);
+
+                if(eligioPosicionCasa ){
+
+                    Location locCasa = new Location("");
+                    locCasa.setLatitude(latitudCasa);
+                    locCasa.setLongitude(longitudCasa);
+
+                    casa.setText("Estas a ");
+                    casa.append(String.valueOf(locAct.distanceTo(locCasa)));
+                    casa.append(" metros");
+
+                }
+
+                if(eligioPosicionFacultad){
+
+                    Location locFacultad = new Location("");
+                    locFacultad.setLatitude(latitudFacultad);
+                    locFacultad.setLongitude(longitudFacultad);
+
+                    facultad.setText("Estas a ");
+                    facultad.append(String.valueOf(locAct.distanceTo(locFacultad)));
+                    facultad.append(" metros");
+
+                }
+
+                if(eligioPosicionTrabajo){
+
+                    Location locTrabajo = new Location("");
+                    locTrabajo.setLatitude(latitudTrabajo);
+                    locTrabajo.setLongitude(longitudTrabajo);
+
+                    trabajo.setText("Estas a ");
+                    trabajo.append(String.valueOf(locAct.distanceTo(locTrabajo)));
+                    trabajo.append(" metros");
+
+                }
 
 
             }
@@ -113,7 +168,28 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void guardarPosicionCasa() {
+    public void setLocalization(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.botonTrabajo:
+                latitudTrabajo = latitudActual;
+                longitudTrabajo = longitudActual;
+                eligioPosicionTrabajo = true;
+                break;
+            case R.id.botonCasa:
+                latitudCasa = latitudActual;
+                longitudCasa = longitudActual;
+                eligioPosicionCasa = true;
+                break;
+            case R.id.botonFacultad:
+                latitudFacultad = latitudActual;
+                longitudFacultad = longitudActual;
+                eligioPosicionFacultad = true;
+                break;
+        }
+    }
+
+    private void guardarPosicionCasa( ) {
         SharedPreferences preferencias = getSharedPreferences("PosicionamientoCasa", Context.MODE_PRIVATE);
 
         try {
