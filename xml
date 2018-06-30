@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+    <TextView
+        android:id="@+id/posicionActual"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="Ubicacion actual"
+        android:gravity="center"
+        lay/>
+    <TextView
+        android:id="@+id/casa"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:layout_below = "@+id/posicionActual"
+        android:text="hhhh"
+        android:background="#555555"
+        android:layout_marginBottom="15dp"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/casa"
+        android:layout_alignRight="@+id/casa"/>
+    <TextView
+        android:id="@+id/trabajo"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:text="hhhh"
+        android:background="#555555"
+        android:layout_marginBottom="15dp"
+        android:layout_below = "@+id/casa"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/trabajo"
+        android:layout_alignRight="@+id/trabajo"/>
+    <TextView
+        android:id="@+id/facultad"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:background="#555555"
+        android:text="hhh"
+        android:layout_below = "@+id/trabajo"/>
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/facultad"
+        android:layout_alignRight="@+id/facultad"
+        android:src=""/>
+
+</RelativeLayout>
