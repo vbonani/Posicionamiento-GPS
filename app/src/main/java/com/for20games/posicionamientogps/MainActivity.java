@@ -92,7 +92,8 @@ public class MainActivity extends AppCompatActivity {
                     locCasa.setLatitude(latitudCasa);
                     locCasa.setLongitude(longitudCasa);
 
-                    casa.setText("Estas a ");
+                    casa.setText("Casa \n");
+                    casa.append("Estas a ");
                     casa.append(String.valueOf(locAct.distanceTo(locCasa)));
                     casa.append(" metros");
 
@@ -118,7 +119,8 @@ public class MainActivity extends AppCompatActivity {
                     locFacultad.setLatitude(latitudFacultad);
                     locFacultad.setLongitude(longitudFacultad);
 
-                    facultad.setText("Estas a ");
+                    facultad.setText("Facultad \n");
+                    facultad.append("Estas a ");
                     facultad.append(String.valueOf(locAct.distanceTo(locFacultad)));
                     facultad.append(" metros");
                     double metros = locAct.distanceTo(locFacultad);
@@ -142,7 +144,8 @@ public class MainActivity extends AppCompatActivity {
                     locTrabajo.setLatitude(latitudTrabajo);
                     locTrabajo.setLongitude(longitudTrabajo);
 
-                    trabajo.setText("Estas a ");
+                    trabajo.setText("Trabajo \n");
+                    trabajo.append("Estas a ");
                     trabajo.append(String.valueOf(locAct.distanceTo(locTrabajo)));
                     trabajo.append(" metros");
                     double metros = locAct.distanceTo(locTrabajo);

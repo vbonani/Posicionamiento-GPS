@@ -23,8 +23,8 @@
         android:layout_marginBottom="15dp"
         />
     <ImageButton
-        android:layout_width="90dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
         android:layout_alignBottom="@+id/casa"
         android:layout_alignRight="@+id/casa"
         android:onClick="setLocalization"
@@ -44,8 +44,8 @@
         android:layout_marginBottom="15dp"
         android:layout_below = "@+id/casa"/>
     <ImageButton
-        android:layout_width="90dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
         android:layout_alignBottom="@+id/trabajo"
         android:layout_alignRight="@+id/trabajo"
         android:onClick="setLocalization"
@@ -64,8 +64,9 @@
         android:textStyle="bold"
         android:layout_below = "@+id/trabajo"/>
     <ImageButton
-        android:layout_width="90dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="45dp"
+
         android:layout_alignBottom="@+id/facultad"
         android:layout_alignRight="@+id/facultad"
         android:onClick="setLocalization"
