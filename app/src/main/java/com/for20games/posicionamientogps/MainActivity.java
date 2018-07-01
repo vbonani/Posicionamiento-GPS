@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         final TextView posActual = findViewById(R.id.posicionActual);
         final TextView casa = findViewById(R.id.casa);
         final TextView facultad = findViewById(R.id.facultad);
@@ -79,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 posActual.append(String.valueOf(longitudActual));
                 posActual.append("\n");
                 posActual.append(String.valueOf(latitudActual));
-
 
 
                 Location locAct = new Location("");

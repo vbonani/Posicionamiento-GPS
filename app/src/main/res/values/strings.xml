@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Posicionamiento GPS</string>
     <string name="string_posicion">Ubicacion actual:  \n Por favor acepte el permiso y active el GPS</string>
-    <string name="string_casa">Casa  \n estas a 300 metros</string>
-    <string name="string_trabajo">Trabajo  \n estas a 500 metros</string>
-    <string name="string_facultad">Facultad \n estas a 800 metros</string>
+    <string name="string_casa">Casa  \n aun no se ha cargado una ubicacion</string>
+    <string name="string_trabajo">Trabajo  \n aun no se ha cargado una ubicacion</string>
+    <string name="string_facultad">Facultad \n aun no se ha cargado una ubicacion</string>
 </resources>
