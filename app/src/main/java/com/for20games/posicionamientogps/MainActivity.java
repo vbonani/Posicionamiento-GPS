@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -79,11 +80,13 @@ public class MainActivity extends AppCompatActivity {
                 posActual.append("\n");
                 posActual.append(String.valueOf(latitudActual));
 
+
+
                 Location locAct = new Location("");
                 locAct.setLatitude(latitudActual);
                 locAct.setLongitude(longitudActual);
 
-                if(eligioPosicionCasa ){
+                if (eligioPosicionCasa) {
 
                     Location locCasa = new Location("");
                     locCasa.setLatitude(latitudCasa);
@@ -93,9 +96,23 @@ public class MainActivity extends AppCompatActivity {
                     casa.append(String.valueOf(locAct.distanceTo(locCasa)));
                     casa.append(" metros");
 
+                    double metros = locAct.distanceTo(locCasa);
+
+                    if (metros > 500.00) {
+                        casa.setBackgroundColor(Color.rgb(255, 00, 00));
+                    } else if (metros == 0) {
+                        casa.setBackgroundColor(Color.rgb(0, 255, 0));
+                    } else {
+                        int rojo = 255 * ((int) metros) / 500;
+                        int verde = 255 - rojo;
+                        casa.setBackgroundColor(Color.rgb(rojo, verde, 0));
+
+                    }
+
+
                 }
 
-                if(eligioPosicionFacultad){
+                if (eligioPosicionFacultad) {
 
                     Location locFacultad = new Location("");
                     locFacultad.setLatitude(latitudFacultad);
@@ -104,10 +121,22 @@ public class MainActivity extends AppCompatActivity {
                     facultad.setText("Estas a ");
                     facultad.append(String.valueOf(locAct.distanceTo(locFacultad)));
                     facultad.append(" metros");
+                    double metros = locAct.distanceTo(locFacultad);
+
+                    if (metros > 500.00) {
+                        facultad.setBackgroundColor(Color.rgb(255, 00, 00));
+                    } else if (metros == 0) {
+                        facultad.setBackgroundColor(Color.rgb(0, 255, 0));
+                    } else {
+                        int rojo = 255 * ((int) metros) / 500;
+                        int verde = 255 - rojo;
+                        facultad.setBackgroundColor(Color.rgb(rojo, verde, 0));
+
+                    }
 
                 }
 
-                if(eligioPosicionTrabajo){
+                if (eligioPosicionTrabajo) {
 
                     Location locTrabajo = new Location("");
                     locTrabajo.setLatitude(latitudTrabajo);
@@ -116,15 +145,79 @@ public class MainActivity extends AppCompatActivity {
                     trabajo.setText("Estas a ");
                     trabajo.append(String.valueOf(locAct.distanceTo(locTrabajo)));
                     trabajo.append(" metros");
+                    double metros = locAct.distanceTo(locTrabajo);
+
+                    if (metros > 500.00) {
+                        trabajo.setBackgroundColor(Color.rgb(255, 00, 00));
+                    } else if (metros == 0) {
+                        trabajo.setBackgroundColor(Color.rgb(0, 255, 0));
+                    } else {
+                        int rojo = 255 * ((int) metros) / 500;
+                        int verde = 255 - rojo;
+                        trabajo.setBackgroundColor(Color.rgb(rojo, verde, 0));
+
+                    }
 
                 }
 
 
             }
         };
-
     }
+    private void restaurarPosiciones() {
 
+        SharedPreferences casa = getSharedPreferences("PosicionamientoCasa", Context.MODE_PRIVATE);
+        SharedPreferences trabajo = getSharedPreferences("PosicionamientoTrabajo", Context.MODE_PRIVATE);
+        SharedPreferences facultad = getSharedPreferences("PosicionamientoFacultad", Context.MODE_PRIVATE);
+
+        String arregloCasa = casa.getString("posicion", " ");
+        String arregloTrabajo = trabajo.getString("posicion", " ");
+        String arregloFacultad = facultad.getString("posicion", " ");
+
+        if (arregloCasa != " "){
+            try {
+            JSONArray arregloC = new JSONArray(arregloCasa);
+            JSONObject posicion = (JSONObject) arregloC.get(0);
+            eligioPosicionCasa = posicion.getBoolean("eligio");
+
+            latitudCasa = posicion.getDouble("latitud");
+
+            longitudCasa = posicion.getDouble("longitud");
+
+              } catch (JSONException e) {
+              e.printStackTrace();
+             }
+         }
+
+         if (arregloTrabajo != " "){
+            try {
+                JSONArray arreglo = new JSONArray(arregloTrabajo);
+                JSONObject posicion = (JSONObject) arreglo.get(0);
+                eligioPosicionTrabajo = posicion.getBoolean("eligio");
+
+                latitudTrabajo = posicion.getDouble("latitud");
+
+                longitudTrabajo = posicion.getDouble("longitud");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (arregloFacultad != " ") {
+            try {
+                JSONArray arreglo = new JSONArray(arregloFacultad);
+                JSONObject posicion = (JSONObject) arreglo.get(0);
+                eligioPosicionFacultad = posicion.getBoolean("eligio");
+
+                latitudFacultad = posicion.getDouble("latitud");
+
+                longitudFacultad = posicion.getDouble("longitud");
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     @Override
     protected void onStart() {
         super.onStart();
@@ -132,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
             pedirPermisosLocalizacion();
         } else {
             obtenerLocalizacion();
+            restaurarPosiciones();
         }
     }
 
@@ -175,31 +269,33 @@ public class MainActivity extends AppCompatActivity {
                 latitudTrabajo = latitudActual;
                 longitudTrabajo = longitudActual;
                 eligioPosicionTrabajo = true;
+                guardarPosicionTrabajo();
                 break;
             case R.id.botonCasa:
                 latitudCasa = latitudActual;
                 longitudCasa = longitudActual;
                 eligioPosicionCasa = true;
+                guardarPosicionCasa();
                 break;
             case R.id.botonFacultad:
                 latitudFacultad = latitudActual;
                 longitudFacultad = longitudActual;
                 eligioPosicionFacultad = true;
+                guardarPosicionFacultad();
                 break;
         }
     }
 
     private void guardarPosicionCasa( ) {
         SharedPreferences preferencias = getSharedPreferences("PosicionamientoCasa", Context.MODE_PRIVATE);
-
+        preferencias.edit().clear().commit();
         try {
             String posicionString = preferencias.getString("posicion", "[]");
             JSONArray posicion = new JSONArray(posicionString);
 
             JSONObject object = new JSONObject();
 
-            object.remove("latitud");
-            object.remove("longitud");
+            object.put("eligio", true);
             object.put("latitud", latitudCasa);
             object.put("longitud", longitudCasa);
 
@@ -212,6 +308,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void guardarPosicionTrabajo() {
         SharedPreferences preferencias = getSharedPreferences("PosicionamientoTrabajo", Context.MODE_PRIVATE);
+        preferencias.edit().clear().commit();
 
         try {
             String posicionString = preferencias.getString("posicion", "[]");
@@ -219,8 +316,7 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject object = new JSONObject();
 
-            object.remove("latitud");
-            object.remove("longitud");
+            object.put("eligio", true);
             object.put("latitud", latitudTrabajo);
             object.put("longitud", longitudTrabajo);
 
@@ -233,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void guardarPosicionFacultad() {
         SharedPreferences preferencias = getSharedPreferences("PosicionamientoFacultad", Context.MODE_PRIVATE);
+        preferencias.edit().clear().commit();
 
         try {
             String posicionString = preferencias.getString("posicion", "[]");
@@ -240,8 +337,7 @@ public class MainActivity extends AppCompatActivity {
 
             JSONObject object = new JSONObject();
 
-            object.remove("latitud");
-            object.remove("longitud");
+            object.put("eligio", true);
             object.put("latitud", latitudFacultad);
             object.put("longitud", longitudFacultad);
 
@@ -253,4 +349,24 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    protected void onSaveInstanceState(Bundle guardar) {
+        super.onSaveInstanceState(guardar);
+        guardar.putDouble("latitud casa", latitudCasa);
+        guardar.putDouble("latitud trabajo", latitudTrabajo);
+        guardar.putDouble("latitud facultad", latitudFacultad);
+        guardar.putDouble("longitud casa", longitudCasa);
+        guardar.putDouble("longitud trabajo", longitudTrabajo);
+        guardar.putDouble("longitud facultad", longitudFacultad);
+    }
+
+    protected void onRestoreInstanceState(Bundle cargar) {
+        super.onRestoreInstanceState(cargar);
+        latitudCasa = cargar.getDouble("latitud casa");
+        latitudTrabajo= cargar.getDouble("latitud trabajo");
+        latitudFacultad = cargar.getDouble("latitud facultad");
+        longitudCasa = cargar.getDouble("longitud casa");
+        longitudTrabajo = cargar.getDouble("longitud trabajo");
+        longitudFacultad = cargar.getDouble("longitud facultad");
+
+    }
 }
